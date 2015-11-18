@@ -16,10 +16,10 @@
 package com.bartoszlipinski.xmltag.compiler.generator;
 
 import com.bartoszlipinski.xmltag.annotations.XmlTag;
-import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
 import com.bartoszlipinski.xmltag.compiler.code.CodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.code.RegistrarCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.code.SubClassCodeGenerator;
+import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
 import com.bartoszlipinski.xmltag.compiler.utils.Logger;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.SkippingImportJavaFile;
@@ -50,7 +50,7 @@ public class XmlTagGenerator extends BaseGenerator {
         if (annotated.size() == 0) {
             return;
         }
-
+        findTagDuplicates(annotated);
         try {
             SkippingImportJavaFile skippingImportJavaFile;
             for (AnnotatedClass a : annotated) {
@@ -68,6 +68,22 @@ public class XmlTagGenerator extends BaseGenerator {
             javaFile.writeTo(processingEnv.getFiler());
         } catch (IOException e) {
             Logger.getInstance().error(e.getMessage());
+        }
+    }
+
+    private void findTagDuplicates(List<AnnotatedClass> annotated) {
+        String foundDuplicate = null;
+        outerLoop:
+        for (int i = 0; i < annotated.size(); ++i) {
+            for (int j = i + 1; j < annotated.size(); ++j) {
+                if (annotated.get(i).mTag.equals(annotated.get(j).mTag)) {
+                    foundDuplicate = annotated.get(i).mTag;
+                    break outerLoop;
+                }
+            }
+        }
+        if (foundDuplicate != null) {
+            Logger.getInstance().error("There's more than one \""+foundDuplicate+"\" tag.");
         }
     }
 }
