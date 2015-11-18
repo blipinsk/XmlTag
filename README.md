@@ -1,4 +1,4 @@
-XmlTagger
+XmlTag
 =========
 The easiest way to simplify custom View tags in layout xmls. 
 
