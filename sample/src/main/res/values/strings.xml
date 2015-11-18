@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">XmlTag</string>
+    <string name="this_view_overrides_the">This View overrides the standard Android\'s TextView. Which is a pretty awesome thing if you think about it… Imagine setting a default font to all your TextViews this way! Pretty awesome, huh?</string>
+</resources>
