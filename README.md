@@ -62,8 +62,38 @@ Usage
         
 Including In Your Project
 -------------------------
-Currently you can download the code and add it to your project manually.
-I'm working on the maven repository upload.
+Add this to your **project** gradle dependencies:
+
+```xml
+dependencies {
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+}
+```
+
+In your **module** (application) gradle add (right after the `'com.android.application'`)
+
+```xml
+apply plugin: 'com.neenbedankt.android-apt'
+```
+
+and dependencies (also in your application gradle):
+
+```xml
+dependencies {
+    compile 'com.bartoszlipinski:xmltag:1.0.0'
+    apt 'com.bartoszlipinski:xmltag-compiler:1.0.0'
+}
+```
+
+***additionally***: *(if you're using `mavenCentral()` instead of `jcenter()`) add this as well:*
+
+```xml
+repositories {
+    maven {
+        url 'https://dl.bintray.com/blipinsk/maven/'
+    }
+}
+```
 
 License
 =======
