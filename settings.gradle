@@ -1,1 +1,1 @@
-include ':library', ':sample', ':annotations', ':compiler'
+include  ':sample', ':xmltag-annotations', ':xmltag-compiler',':xmltag'
