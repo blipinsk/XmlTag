@@ -17,24 +17,21 @@ ext {
     VERSION_CODE = versionCode().toInteger()
     USER_ORG = 'blipinsk'
     GROUP_ID = 'com.bartoszlipinski'
-    UPLOAD_NAME = 'XmlTag'
     DESC = 'The easiest way to simplify custom View tags in Android layout xmls.'
     WEBSITE = 'https://github.com/blipinsk/XmlTag'
     GIT_URL = 'https://github.com/blipinsk/XmlTag.git'
-    LICENSES = ['Apache-2.0']
-    DRY_RUN = 'false'
     ARTIFACT_LIBRARY = 'xmltag'
     ARTIFACT_COMPILER = 'xmltag-compiler'
     ARTIFACT_ANNOTATIONS = 'xmltag-annotations'
 
     userOrg = USER_ORG
     groupId = GROUP_ID
-    uploadName = UPLOAD_NAME
+    uploadName = 'XmlTag'
     description = DESC
     publishVersion = VERSION_NAME
     website = WEBSITE
-    licences = LICENSES
-    dryRun = DRY_RUN
+    licences = ['Apache-2.0']
+    dryRun = 'false'
     bintrayUser = BINTRAY_USERNAME
     bintrayKey = BINTRAY_API_KEY
     IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
@@ -48,7 +45,7 @@ subprojects {
     group = GROUP_ID
     version = VERSION_NAME
 
-    if (IS_UPLOADING && project.name in ['xmltag', 'xmltag-compiler', 'xmltag-annotations']) {
+    if (IS_UPLOADING && project.name in [ARTIFACT_LIBRARY, ARTIFACT_COMPILER, ARTIFACT_ANNOTATIONS]) {
         println project.name
         apply plugin: 'maven'
 
@@ -62,7 +59,7 @@ subprojects {
                     project {
                         name project.name
                         artifactId project.name
-                        packaging project.name == 'xmltag-compiler' || project.name == 'xmltag-annotations' ? 'jar' : 'aar'
+                        packaging project.name == ARTIFACT_COMPILER || project.name == ARTIFACT_ANNOTATIONS ? 'jar' : 'aar'
                         description DESC
                         url WEBSITE
                         version VERSION_NAME
