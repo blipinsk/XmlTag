@@ -1,26 +1,17 @@
+[![License](https://img.shields.io/github/license/blipinsk/XmlTag.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bartoszlipinski/xmltag.svg)](http://gradleplease.appspot.com/#xmltag)
+
 XmlTag
 =========
 The easiest way to simplify custom View tags in layout xmls. 
 
-Although Android Studio 1.5 currently let's us use the short name of the custom `Views` when code-completing:
+Version 1.5 of Android Studio introduced the ability to use the short name of the custom `Views` when code-completing:
 
  ![ ](/sample/screens/first.png)
 
 but why not take it a step further... and actually **use** the short name of the `CustomView` in your layout xml?
 
  ![ ](/sample/screens/second.png)
-
-Before:
-
-    <com.bartoszlipinski.xmltagger.sample.view.CustomView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-After:
-
-    <CustomView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 Usage
 =====
