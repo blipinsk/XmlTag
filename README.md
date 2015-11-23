@@ -2,8 +2,13 @@ XmlTag
 =========
 The easiest way to simplify custom View tags in layout xmls. 
 
-You like using custom `Views` but hate what they do to your xmls?
-This library can take your custom `View` and with a simple `@XmlTag` annotation - simplify your layout file drastically.
+Although Android Studio 1.5 currently let's us use the short name of the custom `Views` when code-completing:
+
+ ![ ](/sample/screens/first.png)
+
+but why not take it a step further... and actually **use** the short name of the `CustomView` in your layout xml?
+
+ ![ ](/sample/screens/second.png)
 
 Before:
 
