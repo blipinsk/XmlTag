@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def cfg = rootProject.ext.configuration
+
 android {
-    compileSdkVersion COMPILE_SDK
-    buildToolsVersion BUILD_TOOLS
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         applicationId "com.bartoszlipinski.xmltag.sample"
-        minSdkVersion 7
-        targetSdkVersion 23
-        versionCode VERSION_CODE
-        versionName VERSION_NAME
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        versionCode cfg.versionCode
+        versionName cfg.versionName
     }
     buildTypes {
         release {

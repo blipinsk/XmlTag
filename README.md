@@ -85,16 +85,6 @@ dependencies {
 }
 ```
 
-***additionally***: *(if you're using `mavenCentral()` instead of `jcenter()`) add this as well:*
-
-```xml
-repositories {
-    maven {
-        url 'https://dl.bintray.com/blipinsk/maven/'
-    }
-}
-```
-
 License
 =======
 

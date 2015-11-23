@@ -11,30 +11,35 @@ buildscript {
 }
 
 ext {
-    COMPILE_SDK = 23
-    BUILD_TOOLS = '23.0.2'
-    VERSION_NAME = version()
-    VERSION_CODE = versionCode().toInteger()
-    USER_ORG = 'blipinsk'
-    GROUP_ID = 'com.bartoszlipinski'
-    DESC = 'The easiest way to simplify custom View tags in Android layout xmls.'
-    WEBSITE = 'https://github.com/blipinsk/XmlTag'
-    GIT_URL = 'https://github.com/blipinsk/XmlTag.git'
-    ARTIFACT_LIBRARY = 'xmltag'
-    ARTIFACT_COMPILER = 'xmltag-compiler'
-    ARTIFACT_ANNOTATIONS = 'xmltag-annotations'
+    configuration = [
+            compileVersion   : 23,
+            buildToolsVersion: "23.0.2",
+            minSdk           : 7,
+            targetSdk        : 23,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
 
-    userOrg = USER_ORG
-    groupId = GROUP_ID
-    uploadName = 'XmlTag'
-    description = DESC
-    publishVersion = VERSION_NAME
-    website = WEBSITE
-    licences = ['Apache-2.0']
-    dryRun = 'false'
+    bintrayConfig = [
+            userOrg            : "blipinsk",
+            userName           : "Bartosz Lipinski",
+            userEmail          : "bartoszlipinski90@gmail.com",
+            groupId            : "com.bartoszlipinski",
+            name               : "XmlTag",
+            artifactLibrary    : "xmltag",
+            artifactCompiler   : "xmltag-compiler",
+            artifactAnnotations: "xmltag-annotations",
+            description        : "The easiest way to simplify custom View tags in Android layout xmls.",
+            website            : "https://github.com/blipinsk/XmlTag",
+            gitUrl             : "https://github.com/blipinsk/XmlTag.git",
+            licenses           : ["Apache-2.0"],
+            licenseDesc        : "The Apache Software License, Version 2.0"
+    ]
+
     bintrayUser = BINTRAY_USERNAME
     bintrayKey = BINTRAY_API_KEY
-    IS_UPLOADING = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
+    dryRun = 'true'
+    isUploading = project.getGradle().startParameter.taskNames.any { it.contains('bintrayUpload') }
 }
 
 subprojects {
@@ -42,10 +47,10 @@ subprojects {
         jcenter()
     }
 
-    group = GROUP_ID
-    version = VERSION_NAME
+    group = bintrayConfig.groupId
+    version = configuration.versionName
 
-    if (IS_UPLOADING && project.name in [ARTIFACT_LIBRARY, ARTIFACT_COMPILER, ARTIFACT_ANNOTATIONS]) {
+    if (isUploading && project.name in [bintrayConfig.artifactLibrary, bintrayConfig.artifactCompiler, bintrayConfig.artifactAnnotations]) {
         println project.name
         apply plugin: 'maven'
 
@@ -59,28 +64,29 @@ subprojects {
                     project {
                         name project.name
                         artifactId project.name
-                        packaging project.name == ARTIFACT_COMPILER || project.name == ARTIFACT_ANNOTATIONS ? 'jar' : 'aar'
-                        description DESC
-                        url WEBSITE
-                        version VERSION_NAME
+                        packaging project.name ==
+                                bintrayConfig.artifactCompiler || project.name == bintrayConfig.artifactAnnotations ? 'jar' : 'aar'
+                        description bintrayConfig.description
+                        url bintrayConfig.website
+                        version configuration.versionName
 
                         scm {
-                            url GIT_URL
-                            connection GIT_URL
-                            developerConnection GIT_URL
+                            url bintrayConfig.gitUrl
+                            connection bintrayConfig.gitUrl
+                            developerConnection bintrayConfig.gitUrl
                         }
 
                         licenses {
                             license {
-                                name 'The Apache Software License, Version 2.0'
+                                name bintrayConfig.licenseDesc
                             }
                         }
 
                         developers {
                             developer {
-                                id USER_ORG
-                                name 'Bartosz Lipinski'
-                                email 'bartoszlipinski90@gmail.com'
+                                id bintrayConfig.userOrg
+                                name bintrayConfig.userName
+                                email bintrayConfig.userEmail
                             }
                         }
                     }
@@ -92,54 +98,4 @@ subprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-task bumpMajor << {
-    ant.propertyfile(file: 'version.properties') {
-        entry(key: 'major', type: 'int', operation: '+', value: 1)
-        entry(key: 'minor', type: 'int', operation: '=', value: 0)
-        entry(key: 'patch', type: 'int', operation: '=', value: 0)
-        entry(key: 'code', type: 'int', operation: '+', value: 1)
-    }
-}
-
-task bumpMinor << {
-    ant.propertyfile(file: 'version.properties') {
-        entry(key: 'minor', type: 'int', operation: '+', value: 1)
-        entry(key: 'patch', type: 'int', operation: '=', value: 0)
-        entry(key: 'code', type: 'int', operation: '+', value: 1)
-    }
-}
-
-task bumpPatch << {
-    ant.propertyfile(file: 'version.properties') {
-        entry(key: 'patch', type: 'int', operation: '+', value: 1)
-        entry(key: 'code', type: 'int', operation: '+', value: 1)
-    }
-}
-
-task genReadMe << {
-    def template = file('README.md.template').text
-    def result = template.replaceAll("%%version%%", version())
-    file("README.md").withWriter { it << result }
-}
-
-task version << {
-    println version()
-}
-
-def String version() {
-    def versionPropsFile = file('version.properties')
-    def Properties versionProps = new Properties()
-    versionProps.load(new FileInputStream(versionPropsFile))
-
-    return versionProps['major'] + "." + versionProps['minor'] + "." + versionProps['patch']
-}
-
-def String versionCode() {
-    def versionPropsFile = file('version.properties')
-    def Properties versionProps = new Properties()
-    versionProps.load(new FileInputStream(versionPropsFile))
-
-    return versionProps['code']
 }
