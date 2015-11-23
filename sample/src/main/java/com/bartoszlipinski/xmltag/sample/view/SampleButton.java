@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bartoszlipinski.xmltag.annotations.XmlTag;
 
@@ -35,5 +36,12 @@ public class SampleButton extends AppCompatButton {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+        requestLayout();
     }
 }
