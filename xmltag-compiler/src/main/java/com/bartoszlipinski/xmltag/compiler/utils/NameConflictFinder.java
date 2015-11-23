@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Bartosz Lipinski
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ package com.bartoszlipinski.xmltag.compiler.utils;
  * Created by Bartosz Lipinski
  * 18.11.2015
  */
-public class SubClassPackageFinder {
+public class NameConflictFinder {
     private static class AndroidViewPackage {
         public static final String NAME = "android.view";
         public static final String[] FORBIDDEN = new String[]{
@@ -399,37 +399,37 @@ public class SubClassPackageFinder {
         };
     }
 
-    public static String findPackageFor(String tag) {
-        String subclassPackage;
-        subclassPackage = tryAndroidView(tag);
-        if (subclassPackage != null) {
-            return subclassPackage;
+    public static String findConflictWith(String tag) {
+        String conflict;
+        conflict = findConflictInAndroidView(tag);
+        if (conflict != null) {
+            return conflict;
         }
-        subclassPackage = tryAndroidWidget(tag);
-        if (subclassPackage != null) {
-            return subclassPackage;
+        conflict = findConflictInAndroidWidget(tag);
+        if (conflict != null) {
+            return conflict;
         }
-        subclassPackage = tryAndroidWebkit(tag);
-        if (subclassPackage != null) {
-            return subclassPackage;
+        conflict = findConflictInAndroidWebkit(tag);
+        if (conflict != null) {
+            return conflict;
         }
-        return tryAndroidApp(tag);
+        return findConflictInAndroidApp(tag);
     }
 
-    private static String tryAndroidView(String tag) {
-        return contains(AndroidViewPackage.FORBIDDEN, tag) ? null : AndroidViewPackage.NAME;
+    private static String findConflictInAndroidView(String tag) {
+        return contains(AndroidViewPackage.FORBIDDEN, tag) ? AndroidViewPackage.NAME + "." + tag : null;
     }
 
-    private static String tryAndroidWidget(String tag) {
-        return contains(AndroidWidgetPackage.FORBIDDEN, tag) ? null : AndroidWidgetPackage.NAME;
+    private static String findConflictInAndroidWidget(String tag) {
+        return contains(AndroidWidgetPackage.FORBIDDEN, tag) ? AndroidWidgetPackage.NAME + "." + tag : null;
     }
 
-    private static String tryAndroidWebkit(String tag) {
-        return contains(AndroidWebkitPackage.FORBIDDEN, tag) ? null : AndroidWebkitPackage.NAME;
+    private static String findConflictInAndroidWebkit(String tag) {
+        return contains(AndroidWebkitPackage.FORBIDDEN, tag) ? AndroidWebkitPackage.NAME + "." + tag : null;
     }
 
-    private static String tryAndroidApp(String tag) {
-        return contains(AndroidAppPackage.FORBIDDEN, tag) ? null : AndroidAppPackage.NAME;
+    private static String findConflictInAndroidApp(String tag) {
+        return contains(AndroidAppPackage.FORBIDDEN, tag) ? AndroidAppPackage.NAME + "." + tag : null;
     }
 
     private static boolean contains(String[] array, String tag) {

@@ -16,6 +16,7 @@
 package com.bartoszlipinski.xmltag.compiler.utils;
 
 import com.bartoszlipinski.xmltag.annotations.XmlTag;
+import com.bartoszlipinski.xmltag.compiler.code.CodeGenerator;
 
 import java.util.List;
 import java.util.Set;
@@ -50,17 +51,14 @@ public class AnnotatedClass {
     }
 
     public AnnotatedClass(TypeElement annotatedElement) {
-        mPackageName = sElementUtils.getPackageOf(annotatedElement).toString();
         mShortName = annotatedElement.getSimpleName().toString();
+        mPackageName = sElementUtils.getPackageOf(annotatedElement).toString();
+        mSubClassPackageName = CodeGenerator.ANDROID_VIEW_PACKAGE_NAME;
         final XmlTag annotation = annotatedElement.getAnnotation(XmlTag.class);
         if (annotation.value().length() != 0) {
             mTag = annotation.value();
         } else {
             mTag = annotatedElement.getSimpleName().toString();
-        }
-        mSubClassPackageName = SubClassPackageFinder.findPackageFor(mTag);
-        if (mSubClassPackageName == null) {
-            Logger.getInstance().error("Tag \"" + mTag + "\" is forbidden.");
         }
     }
 
@@ -126,6 +124,11 @@ public class AnnotatedClass {
         Matcher matcher = pattern.matcher(tag);
         if (matcher.find()) {
             Logger.getInstance().error("Tag cannot contain any whitespaces.");
+        }
+        final String conflict = NameConflictFinder.findConflictWith(tag);
+        if (conflict != null) {
+            Logger.getInstance().error("Names of classes from android.view, android.widget, " +
+                    "android.webkit and android.app cannot be used as tags. Tag " + tag + " is conflicting with "+ conflict);
         }
     }
 }
