@@ -1,8 +1,9 @@
+XmlTag
+=========
+
 [![License](https://img.shields.io/github/license/blipinsk/XmlTag.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bartoszlipinski/xmltag.svg)](http://gradleplease.appspot.com/#xmltag)
 
-XmlTag
-=========
 The easiest way to simplify custom View tags in layout xmls. 
 
 Version 1.5 of Android Studio introduced the ability to use the short name of the custom `Views` when code-completing:
