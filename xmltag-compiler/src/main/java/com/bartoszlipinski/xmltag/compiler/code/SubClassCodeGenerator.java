@@ -35,7 +35,7 @@ public class SubClassCodeGenerator extends CodeGenerator {
 
     public static TypeSpec.Builder generate(AnnotatedClass annotated) {
         TypeSpec.Builder builder = TypeSpec.classBuilder(annotated.mTag)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addModifiers(Modifier.FINAL)
                 .superclass(ClassName.get("", annotated.mPackageName + "." + annotated.mShortName))
                 .addMethod(MethodSpec
                         .constructorBuilder()
