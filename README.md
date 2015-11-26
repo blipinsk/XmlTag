@@ -1,7 +1,7 @@
 XmlTag
 =========
 
-[![License](https://img.shields.io/github/license/blipinsk/XmlTag-yellowgreen.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/github/license/blipinsk/XmlTag.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-XmlTag-green.svg?style=flat)](http://android-arsenal.com/details/1/2830)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bartoszlipinski/xmltag.svg)](http://gradleplease.appspot.com/#xmltag)
 [![Bintray](https://img.shields.io/bintray/v/blipinsk/maven/XmlTag.svg)](https://bintray.com/blipinsk/maven/XmlTag/_latestVersion)
