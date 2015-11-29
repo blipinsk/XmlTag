@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Bartosz Lipinski
- * <p/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -84,12 +84,12 @@ public class AnnotatedClass {
             }
         }
         if (!foundValidSuperClass) {
-            Logger.getInstance().error("A class annotated with @XmlTag must be a child (either direct or indirect) of android.view.View");
+            Logger.getInstance().error(annotatedElement.getQualifiedName() + ": A class annotated with @XmlTag must be a child (either direct or indirect) of android.view.View");
         }
 
         final Set<Modifier> modifiers = annotatedElement.getModifiers();
         if (modifiers.contains(Modifier.FINAL)) {
-            Logger.getInstance().error("A class annotated with @XmlTag cannot be final.");
+            Logger.getInstance().error(annotatedElement.getQualifiedName() + ": A class annotated with @XmlTag cannot be final.");
         }
     }
 
@@ -108,7 +108,7 @@ public class AnnotatedClass {
         }
 
         if (!foundValidConstructor) {
-            Logger.getInstance().error("A class annotated with @XmlTag must have a constructor with Context and AttributeSet");
+            Logger.getInstance().error(annotatedElement.getQualifiedName() + ": A class annotated with @XmlTag must have a constructor with Context and AttributeSet");
         }
     }
 
@@ -123,12 +123,12 @@ public class AnnotatedClass {
         Pattern pattern = Pattern.compile("\\s");
         Matcher matcher = pattern.matcher(tag);
         if (matcher.find()) {
-            Logger.getInstance().error("Tag cannot contain any whitespaces.");
+            Logger.getInstance().error(annotatedElement.getQualifiedName() + ": Tag cannot contain any whitespaces.");
         }
         final String conflict = NameConflictFinder.findConflictWith(tag);
         if (conflict != null) {
-            Logger.getInstance().error("Names of classes from android.view, android.widget, " +
-                    "android.webkit and android.app cannot be used as tags. Tag " + tag + " is conflicting with "+ conflict);
+            Logger.getInstance().error(annotatedElement.getQualifiedName() + ": Names of classes from android.view, android.widget, " +
+                    "android.webkit and android.app cannot be used as tags. Tag " + tag + " is conflicting with " + conflict);
         }
     }
 }
