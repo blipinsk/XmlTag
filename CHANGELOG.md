@@ -1,3 +1,9 @@
+Version 1.1.2 *(2015-11-29)*
+----------------------------
+
+ * Javadoc added to generated classes
+ * Better validation error messages
+
 Version 1.1.1 *(2015-11-25)*
 ----------------------------
 
