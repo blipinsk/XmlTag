@@ -16,8 +16,8 @@ ext {
             buildToolsVersion: "23.0.2",
             minSdk           : 7,
             targetSdk        : 23,
-            versionCode      : 3,
-            versionName      : "1.1.1"
+            versionCode      : 4,
+            versionName      : "1.1.2"
     ]
 
     bintrayConfig = [
