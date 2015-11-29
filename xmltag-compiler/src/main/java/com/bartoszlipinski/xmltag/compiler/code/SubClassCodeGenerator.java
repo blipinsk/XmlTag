@@ -32,9 +32,15 @@ public class SubClassCodeGenerator extends CodeGenerator {
     public static final ClassName CLASS_ATTRIBUTE_SET = ClassName.get("android.util", "AttributeSet");
     public static final String CONTEXT = "context";
     public static final String ATTRS = "attrs";
+    public static final String JAVADOC =
+            "╔══════════════════════════════  XmlTag Library ══════════════════════════════════╗\n\n" +
+                    "\t This class has been generated for\n\n\t\t @see $L.$L\n\n" +
+                    "\t It's presence lets you use <$L ... /> in your xmls.\n\n" +
+                    "╚════════════════════════════════════════════════════════════════════════════════╝\n";
 
     public static TypeSpec.Builder generate(AnnotatedClass annotated) {
         TypeSpec.Builder builder = TypeSpec.classBuilder(annotated.mTag)
+                .addJavadoc(JAVADOC, annotated.mPackageName, annotated.mShortName, annotated.mTag)
                 .addModifiers(Modifier.FINAL)
                 .superclass(ClassName.get("", annotated.mPackageName + "." + annotated.mShortName))
                 .addMethod(MethodSpec
