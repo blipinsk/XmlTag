@@ -15,9 +15,12 @@
  */
 package com.bartoszlipinski.xmltag.compiler.generator;
 
+import com.bartoszlipinski.xmltag.annotations.GenerateXmlTagBinder;
 import com.bartoszlipinski.xmltag.annotations.XmlTag;
+import com.bartoszlipinski.xmltag.compiler.code.BinderCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.code.SubClassCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
+import com.bartoszlipinski.xmltag.compiler.utils.BinderValidator;
 import com.bartoszlipinski.xmltag.compiler.utils.Logger;
 import com.squareup.javapoet.SkippingImportJavaFile;
 
@@ -34,11 +37,14 @@ public class XmlTagGenerator extends BaseGenerator {
 
     @Override
     public Class[] getAnnotations() {
-        return new Class[]{XmlTag.class};
+        return new Class[]{XmlTag.class, GenerateXmlTagBinder.class};
     }
 
     @Override
     public void generate(RoundEnvironment roundEnv, ProcessingEnvironment processingEnv) {
+        boolean generateBinder =
+                BinderValidator.analyze(roundEnv.getElementsAnnotatedWith(GenerateXmlTagBinder.class));
+
         List<AnnotatedClass> annotated = new ArrayList<>();
         for (Element element : roundEnv.getElementsAnnotatedWith(XmlTag.class)) {
             annotated.add(AnnotatedClass.with((TypeElement) element));
@@ -49,13 +55,22 @@ public class XmlTagGenerator extends BaseGenerator {
         }
         findTagDuplicates(annotated);
         try {
-            SkippingImportJavaFile skippingImportJavaFile;
+            SkippingImportJavaFile javaFile;
             for (AnnotatedClass a : annotated) {
-                skippingImportJavaFile = SkippingImportJavaFile
+                javaFile = SkippingImportJavaFile
                         .builder(a.mSubClassPackageName, SubClassCodeGenerator.generate(a).build())
                         .skipImport(a.mPackageName + "." + a.mShortName)
                         .build();
-                skippingImportJavaFile.writeTo(processingEnv.getFiler());
+                javaFile.writeTo(processingEnv.getFiler());
+            }
+
+            if (generateBinder) {
+                for (AnnotatedClass a : annotated) {
+                    javaFile = SkippingImportJavaFile
+                            .builder(a.mPackageName, BinderCodeGenerator.generate(a).build())
+                            .build();
+                    javaFile.writeTo(processingEnv.getFiler());
+                }
             }
         } catch (IOException e) {
             Logger.getInstance().error(e.getMessage());

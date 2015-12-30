@@ -42,6 +42,7 @@ public class MainProcessor extends AbstractProcessor {
         super.init(processingEnv);
         Logger.initialize(processingEnv);
         AnnotatedClass.initialize(processingEnv);
+        BinderValidator.initialize(processingEnv);
     }
 
     @Override

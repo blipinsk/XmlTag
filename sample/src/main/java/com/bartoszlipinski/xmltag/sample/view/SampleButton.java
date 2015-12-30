@@ -11,6 +11,9 @@ import com.bartoszlipinski.xmltag.annotations.XmlTag;
 
 @XmlTag("TestTagForAButton")
 public class SampleButton extends AppCompatButton {
+//    @Bind(R.id.test)
+//    View a;
+
     public SampleButton(Context context) {
         super(context);
         setupView(context);
@@ -27,6 +30,8 @@ public class SampleButton extends AppCompatButton {
     }
 
     private void setupView(Context context) {
+        View view = new View(context);
+//        ButterKnife.bind(this, view);
         setText("I'm just a custom View...");
         setOnClickListener(new OnClickListener() {
             @Override
