@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Bartosz Lipinski
- * <p/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import com.bartoszlipinski.xmltag.annotations.XmlTag;
 import com.bartoszlipinski.xmltag.compiler.code.BinderCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.code.SubClassCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
-import com.bartoszlipinski.xmltag.compiler.utils.BinderValidator;
 import com.bartoszlipinski.xmltag.compiler.utils.Logger;
 import com.squareup.javapoet.SkippingImportJavaFile;
 
@@ -42,9 +41,6 @@ public class XmlTagGenerator extends BaseGenerator {
 
     @Override
     public void generate(RoundEnvironment roundEnv, ProcessingEnvironment processingEnv) {
-        boolean generateBinder =
-                BinderValidator.analyze(roundEnv.getElementsAnnotatedWith(GenerateXmlTagBinder.class));
-
         List<AnnotatedClass> annotated = new ArrayList<>();
         for (Element element : roundEnv.getElementsAnnotatedWith(XmlTag.class)) {
             annotated.add(AnnotatedClass.with((TypeElement) element));
@@ -64,7 +60,7 @@ public class XmlTagGenerator extends BaseGenerator {
                 javaFile.writeTo(processingEnv.getFiler());
             }
 
-            if (generateBinder) {
+            if (generateButterknifeBinder()) {
                 for (AnnotatedClass a : annotated) {
                     javaFile = SkippingImportJavaFile
                             .builder(a.mPackageName, BinderCodeGenerator.generate(a).build())
@@ -91,5 +87,14 @@ public class XmlTagGenerator extends BaseGenerator {
         if (foundDuplicate != null) {
             Logger.getInstance().error("There's more than one \"" + foundDuplicate + "\" tag.");
         }
+    }
+
+    private boolean generateButterknifeBinder() {
+        try {
+            Class.forName("butterknife.ButterKnife");
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }
