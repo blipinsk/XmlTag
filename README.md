@@ -79,8 +79,8 @@ and dependencies (also in your application gradle):
 
 ```xml
 dependencies {
-    compile 'com.bartoszlipinski:xmltag:1.1.2'
-    apt 'com.bartoszlipinski:xmltag-compiler:1.1.2'
+    compile 'com.bartoszlipinski:xmltag:1.1.3'
+    apt 'com.bartoszlipinski:xmltag-compiler:1.1.3'
 }
 ```
 
