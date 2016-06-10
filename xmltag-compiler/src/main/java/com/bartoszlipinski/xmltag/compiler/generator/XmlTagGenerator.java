@@ -1,12 +1,12 @@
-/**
+/*
  * Copyright 2015 Bartosz Lipinski
- * <p/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import com.bartoszlipinski.xmltag.annotations.XmlTag;
 import com.bartoszlipinski.xmltag.compiler.code.SubClassCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
 import com.bartoszlipinski.xmltag.compiler.utils.Logger;
-import com.squareup.javapoet.SkippingImportJavaFile;
+import com.squareup.javapoet.JavaFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,11 +49,10 @@ public class XmlTagGenerator extends BaseGenerator {
         }
         findTagDuplicates(annotated);
         try {
-            SkippingImportJavaFile skippingImportJavaFile;
+            JavaFile skippingImportJavaFile;
             for (AnnotatedClass a : annotated) {
-                skippingImportJavaFile = SkippingImportJavaFile
-                        .builder(a.mSubClassPackageName, SubClassCodeGenerator.generate(a).build())
-                        .skipImport(a.mPackageName + "." + a.mShortName)
+                skippingImportJavaFile = JavaFile
+                        .builder(a.subClassPackageName, SubClassCodeGenerator.generate(a).build())
                         .build();
                 skippingImportJavaFile.writeTo(processingEnv.getFiler());
             }
@@ -67,8 +66,8 @@ public class XmlTagGenerator extends BaseGenerator {
         outerLoop:
         for (int i = 0; i < annotated.size(); ++i) {
             for (int j = i + 1; j < annotated.size(); ++j) {
-                if (annotated.get(i).mTag.equals(annotated.get(j).mTag)) {
-                    foundDuplicate = annotated.get(i).mTag;
+                if (annotated.get(i).tag.equals(annotated.get(j).tag)) {
+                    foundDuplicate = annotated.get(i).tag;
                     break outerLoop;
                 }
             }

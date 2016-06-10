@@ -1,3 +1,9 @@
+Version 1.1.3 *(2016-06-10)*
+----------------------------
+
+ * Javapoet 1.7.0 used
+ * The ugly hack for the Javapoet 1.4.0 removed
+ 
 Version 1.1.2 *(2015-11-29)*
 ----------------------------
 

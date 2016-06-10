@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Bartosz Lipinski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +22,9 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic;
 
 public class Logger {
-    private static Logger sInstance = null;
+    private static Logger instance = null;
 
-    private final WeakReference<Messager> mMessager;
+    private final WeakReference<Messager> messager;
 
     public synchronized static void initialize(ProcessingEnvironment pe) {
         getInstance(pe);
@@ -35,36 +35,36 @@ public class Logger {
     }
 
     private synchronized static Logger getInstance(ProcessingEnvironment pe) {
-        if (sInstance == null) {
-            sInstance = new Logger(pe);
+        if (instance == null) {
+            instance = new Logger(pe);
         }
-        return sInstance;
+        return instance;
     }
 
     public synchronized static void destroyInstance() {
         //TODO: perform necessary actions (on destroy)
-        sInstance = null;
+        instance = null;
     }
 
     private Logger(ProcessingEnvironment pe) {
-        mMessager = new WeakReference<>(pe.getMessager());
+        messager = new WeakReference<>(pe.getMessager());
     }
 
     public void log(String message) {
-        if (mMessager.get() != null) {
-            mMessager.get().printMessage(Diagnostic.Kind.NOTE, message);
+        if (messager.get() != null) {
+            messager.get().printMessage(Diagnostic.Kind.NOTE, message);
         }
     }
 
     public void error(String message) {
-        if (mMessager.get() != null) {
-            mMessager.get().printMessage(Diagnostic.Kind.ERROR, message);
+        if (messager.get() != null) {
+            messager.get().printMessage(Diagnostic.Kind.ERROR, message);
         }
     }
 
     public void warning(String message) {
-        if (mMessager.get() != null) {
-            mMessager.get().printMessage(Diagnostic.Kind.WARNING, message);
+        if (messager.get() != null) {
+            messager.get().printMessage(Diagnostic.Kind.WARNING, message);
         }
     }
 }
