@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Bartosz Lipinski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,10 +39,10 @@ public class SubClassCodeGenerator extends CodeGenerator {
                     "╚════════════════════════════════════════════════════════════════════════════════╝\n";
 
     public static TypeSpec.Builder generate(AnnotatedClass annotated) {
-        TypeSpec.Builder builder = TypeSpec.classBuilder(annotated.mTag)
-                .addJavadoc(JAVADOC, annotated.mPackageName, annotated.mShortName, annotated.mTag)
+        TypeSpec.Builder builder = TypeSpec.classBuilder(annotated.tag)
+                .addJavadoc(JAVADOC, annotated.packageName, annotated.shortName, annotated.tag)
                 .addModifiers(Modifier.FINAL)
-                .superclass(ClassName.get("", annotated.mPackageName + "." + annotated.mShortName))
+                .superclass(ClassName.get("", annotated.packageName + "." + annotated.shortName))
                 .addMethod(MethodSpec
                         .constructorBuilder()
                         .addModifiers(Modifier.PUBLIC)

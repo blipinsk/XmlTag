@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Bartosz Lipinski
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,28 +37,28 @@ public class AnnotatedClass {
     public static final String CLASS_CONTEXT = "android.content.Context";
     public static final String CLASS_ATTRIBUTE_SET = "android.util.AttributeSet";
 
-    public String mPackageName;
-    public String mShortName;
-    public String mSubClassPackageName;
-    public String mTag;
+    public String packageName;
+    public String shortName;
+    public String subClassPackageName;
+    public String tag;
 
-    private static Types sTypeUtils;
-    private static Elements sElementUtils;
+    private static Types typeUtils;
+    private static Elements elementUtils;
 
     public static void initialize(ProcessingEnvironment processingEnv) {
-        sTypeUtils = processingEnv.getTypeUtils();
-        sElementUtils = processingEnv.getElementUtils();
+        typeUtils = processingEnv.getTypeUtils();
+        elementUtils = processingEnv.getElementUtils();
     }
 
     public AnnotatedClass(TypeElement annotatedElement) {
-        mShortName = annotatedElement.getSimpleName().toString();
-        mPackageName = sElementUtils.getPackageOf(annotatedElement).toString();
-        mSubClassPackageName = CodeGenerator.ANDROID_VIEW_PACKAGE_NAME;
+        shortName = annotatedElement.getSimpleName().toString();
+        packageName = elementUtils.getPackageOf(annotatedElement).toString();
+        subClassPackageName = CodeGenerator.ANDROID_VIEW_PACKAGE_NAME;
         final XmlTag annotation = annotatedElement.getAnnotation(XmlTag.class);
         if (annotation.value().length() != 0) {
-            mTag = annotation.value();
+            tag = annotation.value();
         } else {
-            mTag = annotatedElement.getSimpleName().toString();
+            tag = annotatedElement.getSimpleName().toString();
         }
     }
 
@@ -77,7 +77,7 @@ public class AnnotatedClass {
         boolean foundValidSuperClass = false;
         TypeElement typeElement = annotatedElement;
         while (!typeElement.toString().equals(Object.class.getName())) {
-            typeElement = (TypeElement) sTypeUtils.asElement(typeElement.getSuperclass());
+            typeElement = (TypeElement) typeUtils.asElement(typeElement.getSuperclass());
             if (typeElement.toString().equals(CLASS_VIEW)) {
                 foundValidSuperClass = true;
                 break;
