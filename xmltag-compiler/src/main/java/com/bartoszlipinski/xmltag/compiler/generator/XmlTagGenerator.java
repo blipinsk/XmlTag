@@ -19,7 +19,7 @@ import com.bartoszlipinski.xmltag.annotations.XmlTag;
 import com.bartoszlipinski.xmltag.compiler.code.SubClassCodeGenerator;
 import com.bartoszlipinski.xmltag.compiler.utils.AnnotatedClass;
 import com.bartoszlipinski.xmltag.compiler.utils.Logger;
-import com.squareup.javapoet.SkippingImportJavaFile;
+import com.squareup.javapoet.JavaFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,11 +49,10 @@ public class XmlTagGenerator extends BaseGenerator {
         }
         findTagDuplicates(annotated);
         try {
-            SkippingImportJavaFile skippingImportJavaFile;
+            JavaFile skippingImportJavaFile;
             for (AnnotatedClass a : annotated) {
-                skippingImportJavaFile = SkippingImportJavaFile
+                skippingImportJavaFile = JavaFile
                         .builder(a.mSubClassPackageName, SubClassCodeGenerator.generate(a).build())
-                        .skipImport(a.mPackageName + "." + a.mShortName)
                         .build();
                 skippingImportJavaFile.writeTo(processingEnv.getFiler());
             }
