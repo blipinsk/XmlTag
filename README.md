@@ -1,3 +1,11 @@
+# DEPRECATED
+
+XmlTag is deprecated. No more development will be taking place.
+
+It was a very nice experiment. I liked that very much, but I don't find myself using it anymore. That's a viable sign that it should be deprecated.
+
+Thanks for all your support!
+
 XmlTag
 =========
 
@@ -6,7 +14,7 @@ XmlTag
 [![Maven Central](https://img.shields.io/maven-central/v/com.bartoszlipinski/xmltag.svg)](http://gradleplease.appspot.com/#xmltag)
 [![Bintray](https://img.shields.io/bintray/v/blipinsk/maven/XmlTag.svg)](https://bintray.com/blipinsk/maven/XmlTag/_latestVersion)
 
-The easiest way to simplify custom View tags in layout xmls. 
+The easiest way to simplify custom View tags in layout xmls.
 
 Version 1.5 of Android Studio introduced the ability to use the short name of the custom `Views` when code-completing:
 
@@ -16,79 +24,15 @@ but why not take it a step further... and actually **use** the short name of the
 
  ![ ](/sample/screens/second.png)
 
-Usage
-=====
+----
 
-  1. Add `@XmlTag` annotation to your custom `View`
-  
-        @XmlTag
-        public class CustomEditText extends EditText {
-            // ...
-        }
-        
-    or
-    
-        @XmlTag("WriteWhatYouWantHere")
-        public class CustomEditText extends EditText {
-            // ...
-        }
-
-  2. **Optionally**: hit `Build -> Rebuild Project`
-        
-  3. Use the specified `XmlTag` in your `xmls` to inflate your custom `View`
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        
-            <CustomEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-                
-        </FrameLayout>
-        
-    or
-    
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        
-            <WriteWhatYouWantHere
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-                
-        </FrameLayout>
-        
-Including In Your Project
--------------------------
-Add this to your **project** gradle dependencies:
-
-```xml
-dependencies {
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-}
-```
-
-In your **module** (application) gradle add (right after the `'com.android.application'`)
-
-```xml
-apply plugin: 'com.neenbedankt.android-apt'
-```
-
-and dependencies (also in your application gradle):
-
-```xml
-dependencies {
-    compile 'com.bartoszlipinski:xmltag:1.1.3'
-    apt 'com.bartoszlipinski:xmltag-compiler:1.1.3'
-}
-```
+If you wanna see how it can be used, check [USAGE.md](USAGE.md).
 
 License
 =======
 
     Copyright 2015 Bartosz Lipiński
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
